@@ -14,11 +14,11 @@ Setup
 **What puppet-dcache module affects:**
 
 * package / services
-* config files:  dcahce.conf, poolmanager.conf , layout file
+* config files:  dcache.conf, poolmanager.conf, layout file
 * creates dcache pools
 * TSM Interface
 
-Was tested only on : SL5 - SL7 ,CentOS7
+Was tested only on : SL5 - SL7, CentOS7
 
 
 ###Configuring dCache
