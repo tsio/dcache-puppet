@@ -1,7 +1,7 @@
 # dcache #
 
 
-The dCache module allows you manage instance with Puppet.
+The dCache module allows you to manage your instance with Puppet.
 
 Module Description
 -------------------
@@ -11,7 +11,7 @@ TBD
 Setup
 -----
 
-**What puppet-dcahce module affects:**
+**What puppet-dcache module affects:**
 
 * package / services
 * config files:  dcahce.conf, poolmanager.conf , layout file
@@ -49,7 +49,7 @@ customized usage  :
  
 *example of hiera configuration entries "_dcache_node_".yaml :* 
 
- parameters for the file  dcache.conf
+ paramaters for  dcache.conf
 ***
 <pre><code>
 
