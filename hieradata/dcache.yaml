@@ -1,0 +1,133 @@
+layout_conf:
+  global_properties:
+  domains:
+    'webdav-lhcb-https':
+      domain_properties:
+        dcache.java.memory.heap: '512m'
+        webdav.mover.queue: 'webdav'
+        webdav.net.port: '8446'
+      cells:
+        webdav:
+          webdav.authn.protocol: 'https-jglobus'
+          webdav.authz.allowed-paths: '/pnfs/fz-juelich.de/data/lofar'
+          webdav.cell.name: 'WebDAV-LOFAR_${host.name}'
+          webdav.root: '/pnfs/fz-juelich.de/data/lofar'
+          webdav.authz.readonly: 'true'
+
+    'dcap':
+      domain_properties:
+        dcache.java.memory.heap: '1024m'
+        dcap.mover.queue: 'dcap'
+        dcap.authz.anonymous-operations: 'READONLY'
+      cells:
+        dcap: ""
+
+    'gsidcap':
+      domain_properties:
+        dcache.java.memory.heap: '1024m'
+        dcap.mover.queue: 'dcap'
+      cells:
+        dcap:
+          dcap.authn.protocol: 'gsi'
+
+    'xrootd':
+      domain_properties:
+        dcache.java.memory.heap: '512m'
+        xrootd.mover.queue: 'xrootd'
+      cells:
+        xrootd: ""
+
+    'gridftp':
+      domain_properties:
+        dcache.java.memory.heap: '1500m'
+        ftp.mover.queue: 'ftp'
+        ftp.limits.clients: '1500'
+      cells:
+        ftp:
+          ftp.authn.protocol: 'gsi'
+
+    'nfsv41':
+      domain_properties:
+        dcache.java.memory.heap: '2048m'
+        dcache.enable.space-reservation: 'false'
+        nfs.domain: 'pic.es'
+        nfs.mover.queue: 'nfs4'
+        nfs.idmap.legacy: 'true'
+        nfs.service.loginbroker.family: 'nfsv41'
+        nfs.db.connections.max: '100'
+        nfs.version: '4.1'
+      cells:
+        nfs:
+          chimera.db.host: 'localhost.localdomain'
+          nfs.db.host: 'localhost.localdomain'
+          nfs.db.user: 'chimera'
+    'pool':
+      domain_properties:
+        dcache.java.memory.heap: '6000m'
+        pool.plugins.meta: 'org.dcache.pool.repository.meta.db.BerkeleyDBMetaDataRepository'
+        pool.queues: 'ftp,dcap,nfs4,xrootd,xrootd-wan,webdav'
+      cells:
+        pool:
+          pool.wait-for-files: '${pool.path}/data'
+
+dcache_conf:
+  dcache: 
+    dcache.layout    : '${host.name}'
+    dcache.namespace : 'chimera'
+    dcache.broker.host  : ''localhost.localdomain''
+    dcache.enable.space-reservation : 'false'
+    dcache.user : 'root'
+
+  chimera:
+    chimera.db.user  : 'chimera'
+    chimera.db.url   : 'jdbc:postgresql://localhost/chimera?prepareThreshold=3'
+
+  ftp:
+    ftp.limits.streams-per-client : '20'
+    ftp.proxy.on-passive  : 'false'
+    ftp.proxy.on-active : 'false'
+    ftp.performance-marker-period : '30'
+  
+  billig:
+    billing.enable.db : 'true'
+
+  httpd:
+    httpd.enable.authn  : 'true'
+    httpd.enable.plots.billing  : 'true'
+    httpd.enable.plots.pool-queue : 'true'
+    httpd.authz.admin-gid : '500'
+
+  info-provider:
+    info-provider.site-unique-id : 'TEST'
+    info-provider.se-unique-id : 'dcache.test.'
+    info-provider.se-name : 'Test dCache'
+    info-provider.dcache-architecture : 'tape'
+    info-provider.paths.tape-info : '/var/opt/dcache/tape-info.xml'
+    info-provider.http.host : 'localhost.localdomain'
+
+  srm:
+    srm.enable.pin-online-files : 'false'
+    srm.persistence.enable.history  : 'true'
+    srm.net.local-hosts : 'localhost.localdomain'
+    srm.net.host : 'localhost.localdomain'                                                                                                                              
+    srm.limits.jetty-connector.acceptors : '8'
+    srm.limits.jetty.threads.max : '5000'
+    srm.limits.jetty.threads.queued.max : '1000'
+    srm.limits.db.queue : '2000'                                                                                                                                             
+    srm.persistence.enable : 'false'                                                                                                                                         
+    srm.persistence.enable.clean-pending-on-restart : 'true'                                                                                                                 
+    srm.request.threads : '100'
+    srm.request.put.threads : '100'                                                                                                                                          
+    srm.request.bring-online.threads : '100'                                                                                                                                 
+    srm.request.retries : '2'                                                                                                                                                
+    srm.request.copy.retries : '2'
+    srm.request.put.retries : '2'                                                                                                                                            
+    srm.request.bring-online.retries : '2'
+    srm.request.max-transfers : '5000'                                                                                                                                       
+
+  pnfsmanager:                                                                                                                               
+    pnfsmanager.limits.threads-per-group : '12'                                                                                                                              
+    pnfsmanager.limits.list-threads : '4'
+    pnfsmanager.enable.folding : 'true'
+    pnfsmanager.limits.log-slow-threshold : '1000'
+    pnfsmanager.enable.full-path-permission-check : 'false'

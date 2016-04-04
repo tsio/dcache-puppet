@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# chkconfig: 345 27 73
+# description: starts ENDIT
+
+case "$1" in
+    start)
+        shift
+        nohup perl /opt/endit/tsmretriever.pl 2>&1 >> /var/log/dcache/tsmretriever.pl.log &
+        nohup perl /opt/endit/tsmarchiver.pl 2>&1 >> /var/log/dcache/tsmarchiver.pl.log &
+        nohup perl /opt/endit/tsmdeleter.pl 2>&1 >> /var/log/dcache/tsmdeleter.pl.log &
+        ;;
+    stop)
+        shift
+        ps -ef | grep tsmretriever.pl | grep -v grep | awk '{print $2}' | xargs kill
+        ps -ef | grep tsmarchiver.pl | grep -v grep | awk '{print $2}' | xargs kill
+        ps -ef | grep tsmdeleter.pl | grep -v grep | awk '{print $2}' | xargs kill
+        ;;
+    restart)
+        shift
+        ps -ef | grep tsmretriever.pl | grep -v grep | awk '{print $2}' | xargs kill
+        ps -ef | grep tsmarchiver.pl | grep -v grep | awk '{print $2}' | xargs kill
+        ps -ef | grep tsmdeleter.pl | grep -v grep | awk '{print $2}' | xargs kill
+        nohup perl /opt/endit/tsmretriever.pl 2>&1 >> /var/log/dcache/tsmretriever.pl.log &
+        nohup perl /opt/endit/tsmarchiver.pl 2>&1 >> /var/log/dcache/tsmarchiver.pl.log &
+        nohup perl /opt/endit/tsmdeleter.pl 2>&1 >> /var/log/dcache/tsmdeleter.pl.log &
+        ;;
+    status)
+        ps -ef | grep tsm
+        ;;
+esac
