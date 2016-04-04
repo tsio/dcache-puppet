@@ -74,7 +74,7 @@ dcache_conf:
   dcache: 
     dcache.layout    : '${host.name}'
     dcache.namespace : 'chimera'
-    dcache.broker.host  : ''localhost.localdomain''
+    dcache.broker.host  : 'localhost.localdomain'
     dcache.enable.space-reservation : 'false'
     dcache.user : 'root'
 
