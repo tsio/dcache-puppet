@@ -49,7 +49,7 @@ customized usage  :
  
 *example of hiera configuration entries "_dcache_node_".yaml :* 
 
- paramaters for  dcache.conf
+ parameters for dcache.conf
 ***
 <pre><code>
 
@@ -101,7 +101,7 @@ dcache_conf:
 
 </code></pre> 
 
- layuotfile: 
+ layoutfile: 
 ***
 <code><pre>
 
