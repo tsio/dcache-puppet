@@ -36,7 +36,7 @@ class dcache::layout ($l_file = "${dcache::dcache_etc_dir}/layouts/${hostname}.c
 
   # Ugly method but it prevents java orphaned processes.
   exec { 'dcache-reload':
-    command     => "echo /etc/init.d/dcache-server stop; cp -p  ${l_file}.puppet ${l_file}; touch ${l_file} ; echo /etc/init.d/dcache-server start",
+    command     => "dcache stop; cp -p  ${l_file}.puppet ${l_file}; touch ${l_file} ; echo dcache start",
     refreshonly => true,
     path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin/'],
     logoutput   => false,

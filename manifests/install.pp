@@ -28,6 +28,14 @@ class dcache::install ($lock_version = $dcache::lock_version) {
     ensure => $_package_ensure,
     name   => $package_name,
     tag    => 'dcache',
+    notify => Exec['dcache-update_db'],
+  }
+
+  exec { 'dcache-update_db':
+    command     => "dcache database update",
+    refreshonly => true,
+    path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin/'],
+    logoutput   => false,
   }
 
 }
