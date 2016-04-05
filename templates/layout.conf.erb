@@ -28,7 +28,7 @@
 <% d_value.sort.each do |cell_name,cell_value| -%>
 <% if cell_name!= "domainsettings" and cell_name!= "comments" -%>
 [<%= d_name %>/<%= cell_name %>]
-<% if !cell_value.nil? -%>
+<% if defined?(cell_value).nil? -%>
 <% cell_value.sort.each do |cp_name,cp_value| -%>
 <%= cp_name %>=<%= cp_value %>
 <% end -%>
@@ -55,7 +55,7 @@
 <% d_value.sort.each do |cell_name,cell_value| -%>
 <% if cell_name!= "domainsettings" and cell_name!= "comments" -%>
 [<%= d_name %>/<%= cell_name %>]
-<% if !cell_value.nil? -%>
+<% if defined?(cell_value).nil? -%>
 <% cell_value.sort.each do |cp_name,cp_value| -%>
 <%= cp_name %>=<%= cp_value %>
 <% end -%>
