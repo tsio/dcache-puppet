@@ -51,7 +51,7 @@ class dcache::poolmanager (
     }
 
     exec { 'reload_pm':
-      command     => "/etc/init.d/dcache-server stop; cp -p  ${poolmanagerconf_file}.puppet ${poolmanagerconf_file}; /bin/echo /etc/init.d/dcache-server start",
+      command     => "/etc/init.d/dcache-server stop; cp -p  ${poolmanagerconf_file}.puppet ${poolmanagerconf_file}; echo /etc/init.d/dcache-server start",
       refreshonly => true,
       path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin/'],
       logoutput   => false,
