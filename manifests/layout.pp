@@ -16,8 +16,6 @@ class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodeff',
   }
 
   if ($layout_hash != 'nodeff') {
-    notice($layout_hash)
-
     file { "${l_file}.puppet":
       owner   => $dcache::dcacheuser,
       group   => $dcache::dcachegroup,
