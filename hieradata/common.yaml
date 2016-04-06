@@ -277,63 +277,6 @@ pools_setup_1:
 
 
 
-dcache_conf_ildg:
-  billing:
-    billing.enable.db: 'true'
-
-  chimera:
-    chimera.db.url: 'jdbc:postgresql://localhost/chimera?prepareThreshold=3'
-    chimera.db.user: 'chimera'
-
-  dcache:
-    dcache.broker.host: 'dcache.fz-juelich.de'
-    dcache.enable.space-reservation: 'false'
-    dcache.layout: '${host.name}'
-    dcache.log.dir: '/var/log/dCache'
-    dcache.namespace: 'chimera'
-    dcache.upload-directory: '/pnfs/fz-juelich.de/data/upload'
-    dcache.user: 'dcache'
-
-  ftp:
-    ftp.limits.streams-per-client: '20'
-    ftp.performance-marker-period: '30'
-
-  gplazma:
-    gplazma.authzdb.uid: 'uid,login,group,user'
-
-  httpd:
-    httpd.authz.admin-gid: '22010'
-    httpd.enable.authn: 'true'
-    httpd.enable.plots.billing: 'true'
-    httpd.enable.plots.pool-queue: 'true'
-
-  info-provider:
-    info-provider.dcache-architecture: 'tape'
-    info-provider.http.host: 'dcache.fz-juelich.de'
-    info-provider.paths.tape-info: '/var/opt/dcache/tape-info.xml'
-    info-provider.se-name: 'dcache'
-    info-provider.se-unique-id: 'dcache.fz-juelich.de'
-    info-provider.site-unique-id: 'FZJ'
-
-  pnfsmanager:
-    pnfsmanager.enable.full-path-permission-check: 'false'
-
-  srm:
-    srm.enable.pin-online-files: 'false'
-    srm.limits.db.queue: '2000'
-    srm.limits.jetty-connector.acceptors: '12'
-    srm.limits.jetty.threads.max: '5000'
-    srm.limits.jetty.threads.queued.max: '1000'
-    srm.persistence.enable.clean-pending-on-restart: 'true'
-    srm.persistence.enable.history: 'true'
-    srm.persistence.enable: 'false'
-    srm.request.bring-online.retries: '2'
-    srm.request.bring-online.threads: '100'
-    srm.request.copy.retries: '2'
-    srm.request.put.retries: '2'
-    srm.request.put.threads: '100'
-    srm.request.retries: '2'
-    srm.request.threads: '100'
 
 tsm_files:   
     - 'Endit.pm'
@@ -345,11 +288,11 @@ tsm_files:
     - 'tsmdeleter.pl'
     - 'tsmretriever.pl'
 
-endit_conf_lofar:
-  dir: '/lofar'
+endit_conf:
+  dir: '/tape'
   dirread: '/pool01'
   dirwrite: '/pool02'
-  linkdir: '/lofar/DEFAULT/'
+  linkdir: '/tape/DEFAULT/'
   logdir: '/var/log/dcache/'
   dcuser: 'dcache'
   maxusage: '4096'
@@ -358,27 +301,9 @@ endit_conf_lofar:
   hsminstance: 'osm'
   minusage: '100'
   timeout: '5400'
-  dsmcopts: '-server=dcache -fromnode=DCACHE-LOFAR -password==S0meT$MPas$word'
-  dsmcnode: 'DCACHE-LOFAR'
-  dsmcpass: '=S0meT$MPas$word'
-  verbose: '1'
-  
-endit_conf_ildg:
-  dir: '/ildggrid'
-  dirread: '/pool01'
-  dirwrite: '/pool02'
-  linkdir: '/ildggrid/ildg001/'
-  logdir: '/var/log/dcache/'
-  dcuser: 'dcache'
-  maxusage: '4096'
-  maxusageread: '1024'
-  pollinginterval: '300'
-  hsminstance: 'osm'
-  minusage: '100'
-  timeout: '5400'
-  dsmcopts: '-server=dcache -fromnode=DCACHE-POOL -password==S0meT$MPas$word'
-  dsmcnode: 'DCACHE-POOL'
-  dsmcpass: '=S0meT$MPas$word'
+  dsmcopts: '-server=tape -fromnode=DCACHE -password=tapepw'
+  dsmcnode: 'DCACHE'
+  dsmcpass: 'tapepw'
   verbose: '1'
 
 poolmanager_cfg_hash:
