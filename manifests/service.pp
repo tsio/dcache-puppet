@@ -26,7 +26,5 @@ class dcache::service (
     }
   }
 
-  #     $_dcache = hiera_hash('dcache', {})
-  #  create_resources('service', $_dcache['services'])
 }
 

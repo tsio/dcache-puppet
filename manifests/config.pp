@@ -3,10 +3,17 @@ class dcache::config ($conf = 'nodeff',) {
 
   if ($dcache_conf != 'nodeff') {
     file { "${dcache::dcache_etc_dir}/dcache.conf":
-      owner   => $dcache::dcacheuser,
-      group   => $dcache::dcachegroup,
+      owner   => $::dcache::dcacheuser,
+      group   => $::dcache::dcachegroup,
       mode    => '0644',
       content => template('dcache/dcache.conf.erb');
+    }
+
+    if deep_has_key($dcache_conf, 'dcache.user') {
+      if $dcache_conf['dcache']['dcache.user'] != $::dcache::dcacheuser {
+        notify { "Puppet dcache user: ${::dcache::dcacheuser}  doesn't match <dcache.user> from dcache.conf ${dcache_conf['dcache']['dcache.user'
+            ]}  ": }
+      }
     }
 
     if deep_has_key($dcache_conf, 'dcache.log.dir') {

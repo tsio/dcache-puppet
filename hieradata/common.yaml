@@ -118,8 +118,8 @@ dcache_conf:
 
 dcache_layout:
   globals: 
-    'dcache.java.memory.heap': '2048m'
-    'dcache.java.memory.direct': '1024m'
+    'dcache.java.memory.heap': '512m'
+    'dcache.java.memory.direct': '512m'
   domains:
     dCacheDomain:
       poolmanager: 
@@ -148,7 +148,7 @@ dcache_layout:
 
     nfsDomain:
       domainsettings: 
-        dcache.java.memory.heap: '4096m'
+        dcache.java.memory.heap: '256m'
       nfs:
         nfs.version: '4.1'
 
@@ -160,8 +160,8 @@ dcache_layout:
 
     gridftpDomain:
       domainsettings:
-        dcache.java.memory.heap: '8192m'
-        dcache.java.memory.direct: '2048m'
+        dcache.java.memory.heap: '512m'
+        dcache.java.memory.direct: '256m'
         dcache.java.options.extra: ' -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=${dcache.log.dir} -d64'
       ftp:
         ftp.authn.protocol:  gsi
