@@ -13,8 +13,10 @@ class dcache::config ($conf = 'nodeff',) {
       exec { "Create ${dcache_conf['dcache']['dcache.log.dir']}":
         creates => "${dcache_conf['dcache']['dcache.log.dir']}",
         command => "mkdir -p ${dcache_conf['dcache']['dcache.paths.billing']}",
-        path    => $::path
-      } ->
+        path    => $::path,
+        notify  => File[$dcache_conf['dcache']['dcache.log.dir']],
+      }
+
       file { $dcache_conf['dcache']['dcache.log.dir']:
         owner  => $dcache::dcacheuser,
         group  => $dcache::dcachegroup,
