@@ -1,0 +1,544 @@
+pg_hba_rules:
+    'local all is for Unix domain socket connections only:':
+        type: local
+        database: all
+        user: all
+        auth_method: 'trust'
+        order: '001'
+    'IPv4 local connections:':
+        type: host
+        database: all
+        user: all
+        auth_method: 'trust'
+        address: '127.0.0.1/32'
+        order: '002'
+    'IPv6 local connections:':
+        type: host
+        database: all
+        user: all
+        auth_method: 'trust'
+        address: '::1/128'
+        order: '003'
+ 
+ 
+ssh_pub_keys:
+  - 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAn98FaP3Gf11bLsghwdRhI8zoD2xRutZnIx09r9lvVN8Pw6t/LRGgCdDx4fo5UsGZyj2pSz8+xkUcWXvO2KIOuid2VaVpvzk7AECqwfVKsf4HWWxZZwH3v0T2NyOHaZtvRj8DRmMrjxiX2qMbC0QeIWE4Kk6QMQrBlUXkJhLHwcpfB77/BbsnbLymUlFe+Y9mSo9aRbhLdUlf0MTMRfCkfK3GtaRFic5xbvO7MJ3Ow2XSOFjYyqV5sIF+8gJVXNebjnC6ETgki0spD+xYmkX5gqhf1oBnI8lpp3q5Lv4H6+mBp0J4d5eCQGzS8YcgIHPNzZfDQ6OYms8SXRL0w8qywQ== manzano@zam360'
+  
+common_pkgs:
+  - 'java-1.8.0-openjdk'
+
+common_pkgs_5:
+  - 'jre1.8.0_73.x86_64'  
+
+       
+dcache_version: '2.10.58-1'
+
+dcache_conf:
+  dcache: 
+    dcache.log.dir: '/var/log/dcache'
+    dcache.layout    : '${host.name}'
+    dcache.namespace : 'chimera'
+    dcache.upload-directory : '/data/upload'
+    dcache.enable.space-reservation : 'false'
+    dcache.user : 'dcache'
+    dcache.paths.billing: '/var/log/data/billing'
+    
+  chimera:
+    chimera.db.user  : 'chimera'
+    chimera.db.url   : 'jdbc:postgresql://localhost/chimera?prepareThreshold=3'
+    chimera.db.name  : 'chimera'
+
+
+  ftp:
+    ftp.limits.streams-per-client : '20'
+    ftp.proxy.on-passive  : 'false'
+    ftp.proxy.on-active : 'false'
+    ftp.performance-marker-period : '30'
+  
+  billig:
+    billing.enable.db : 'true'
+    billing.db.name: 'billing'
+    billing.db.user: 'srmdcache'
+
+  httpd:
+    httpd.enable.authn  : 'true'
+    httpd.enable.plots.billing  : 'true'
+    httpd.enable.plots.pool-queue : 'true'
+    httpd.authz.admin-gid : '500'
+
+  info-provider:
+    info-provider.site-unique-id : 'DEMO'
+    info-provider.se-unique-id : 'puppet-dcache-demo'
+    info-provider.se-name : 'Demo puppet dCache'
+    info-provider.dcache-architecture : 'tape'
+    info-provider.paths.tape-info : '/var/opt/dcache/tape-info.xml'
+    info-provider.http.host : 'localhost.localdomain'
+
+  srm:
+    srm.enable.pin-online-files : 'false'
+    srm.persistence.enable.history  : 'true'
+    srm.net.local-hosts : 'localhost.localdomain'
+    srm.net.host : 'localhost.localdomain'                                                                                                                              
+    srm.limits.jetty-connector.acceptors : '8'
+    srm.limits.jetty.threads.max : '5000'
+    srm.limits.jetty.threads.queued.max : '1000'
+    srm.limits.db.queue : '2000'                                                                                                                                             
+    srm.persistence.enable : 'false'                                                                                                                                         
+    srm.persistence.enable.clean-pending-on-restart : 'true'                                                                                                                 
+    srm.request.threads : '100'
+    srm.request.put.threads : '100'                                                                                                                                          
+    srm.request.bring-online.threads : '100'                                                                                                                                 
+    srm.request.retries : '2'                                                                                                                                                
+    srm.request.copy.retries : '2'
+    srm.request.put.retries : '2'                                                                                                                                            
+    srm.request.bring-online.retries : '2'
+    srm.request.max-transfers : '5000'                                                                                                                                       
+    srm.db.name: 'dcache'
+    srm.db.user: 'srmdcache'
+
+  pnfsmanager:                                                                                                                               
+    pnfsmanager.limits.threads-per-group : '24'                                                                                                                              
+    pnfsmanager.limits.list-threads : '4'
+    pnfsmanager.enable.folding : 'true'
+    pnfsmanager.limits.log-slow-threshold : '1000'
+    pnfsmanager.enable.full-path-permission-check : 'false'
+    pnfsmanager.db.connections.max: '50'
+ 
+  poolmanager:
+    poolmanager.service.pool.timeout: '5000'                                                                                                                          
+
+  pinmanager:
+    pinmanager.db.name: 'dcache'
+    pinmanager.db.user: 'srmdcache'
+
+  transfermanagers:
+    transfermanagers.db.name: 'dcache'
+    transfermanagers.db.user:  'srmdcache'
+
+
+dcache_layout:
+  globals: 
+    'dcache.java.memory.heap': '2048m'
+    'dcache.java.memory.direct': '1024m'
+  domains:
+    dCacheDomain:
+      poolmanager: 
+      broadcast:  
+      loginbroker: 
+      topo: 
+    dirDomain:
+      dir:
+    adminDoorDomain:
+      admin:
+    httpdDomain:
+      httpd:
+      billing:
+    utilityDomain:
+      pinmanager:
+    gPlazma-dcache-lofarDomain:
+      gplazma:
+
+    namespaceDomain:
+      pnfsmanager: 
+         pnfsmanager.enable.acl: 'true'
+      cleaner:
+
+    statisticsDomain:
+      statistics:
+
+    nfsDomain:
+      domainsettings: 
+        dcache.java.memory.heap: '4096m'
+      nfs:
+        nfs.version: '4.1'
+
+    srm-dcache-lofarDomain:
+      srm:
+      transfermanagers:
+    infoDomain:
+      info:
+
+    gridftpDomain:
+      domainsettings:
+        dcache.java.memory.heap: '8192m'
+        dcache.java.memory.direct: '2048m'
+        dcache.java.options.extra: ' -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=${dcache.log.dir} -d64'
+      ftp:
+        ftp.authn.protocol:  gsi
+        ftp.net.port: '2811'
+        ftp.cell.name: 'GFTP-${host.name}'
+
+
+    01Domain: 
+      pool:
+        pool.name: '${host.name}_01'
+        pool.path: '/pool01/pool'
+        pool.size: '27T'
+        pool.plugins.meta: 'org.dcache.pool.repository.meta.db.BerkeleyDBMetaDataRepository'
+        pool.wait-for-files: '${pool.path}/data:${pool.path}/meta'
+        pool.lfs: 'none'
+        pool.tags: 'hostname=${host.name}'
+
+    02Domain: 
+      pool:
+        pool.name: '${host.name}_02'
+        pool.path: '/pool02/pool'
+        pool.size: '27T'
+        pool.plugins.meta: 'org.dcache.pool.repository.meta.db.BerkeleyDBMetaDataRepository'
+        pool.wait-for-files: '${pool.path}/data:${pool.path}/meta'
+        pool.lfs: 'none'
+        pool.tags: 'hostname=${host.name}'
+
+
+pools_setup_1:
+  '${host.name}_01':
+     setup: |
+       #
+       # Created by some(Pool) at Mon Jul 17 17:17:17 CEST 2017
+       #
+       csm set checksumtype ADLER32
+       csm set policy -scrub=off
+       csm set policy -onread=off -onwrite=off -onflush=off -onrestore=off -ontransfer=on -enforcecrc=on -getcrcfromhsm=off
+       #
+       # Flushing Thread setup
+       #
+       flush set max active 1000
+       flush set interval 60
+       flush set retry delay 60
+       #
+       # Nearline storage
+       #
+       hsm create osm osm script -command=/opt/endit/endit.pl -c:gets=0 -c:puts=5 -c:removes=1
+       jtm set timeout -queue=regular -lastAccess=3600 -total=86400
+       jtm set timeout -queue=p2p -lastAccess=3600 -total=86400
+       jtm set timeout -queue=io -lastAccess=3600 -total=86400
+       #
+       # MigrationModule
+       #
+       set heartbeat 30
+       set report remove on
+       set breakeven 0.5
+       set mover cost factor 0.1
+       set gap 322122547200
+       set duplicate request none
+       mover set max active -queue=regular 100
+       mover set max active -queue=p2p 10
+       #
+       #  Pool to Pool (P2P) [$Revision$]
+       #
+       pp set max active 10
+       pp set pnfs timeout 300
+       set max diskspace 25288767438848
+       rh set timeout 691200
+       st set timeout 172800
+       rm set timeout 14400
+
+  '${host.name}_02':
+     setup: |
+       #
+       # Created by some(Pool) at Mon Jul 17 17:17:17 CEST 2017
+       #
+       csm set checksumtype ADLER32
+       csm set policy -scrub=off
+       csm set policy -onread=off -onwrite=off -onflush=off -onrestore=off -ontransfer=on -enforcecrc=on -getcrcfromhsm=off
+       #
+       # Flushing Thread setup
+       #
+       flush set max active 1000
+       flush set interval 60
+       flush set retry delay 60
+       #
+       # Nearline storage
+       #
+       hsm create osm osm script -command=/opt/endit/endit.pl -c:gets=0 -c:puts=5 -c:removes=1
+       jtm set timeout -queue=regular -lastAccess=3600 -total=86400
+       jtm set timeout -queue=p2p -lastAccess=3600 -total=86400
+       jtm set timeout -queue=io -lastAccess=3600 -total=86400
+       #
+       # MigrationModule
+       #
+       set heartbeat 30
+       set report remove on
+       set breakeven 0.5
+       set mover cost factor 0.1
+       set gap 322122547200
+       set duplicate request none
+       mover set max active -queue=regular 100
+       mover set max active -queue=p2p 10
+       #
+       #  Pool to Pool (P2P) [$Revision$]
+       #
+       pp set max active 10
+       pp set pnfs timeout 300
+       set max diskspace 25288767438848
+       rh set timeout 691200
+       st set timeout 172800
+       rm set timeout 14400
+
+
+
+dcache_conf_ildg:
+  billing:
+    billing.enable.db: 'true'
+
+  chimera:
+    chimera.db.url: 'jdbc:postgresql://localhost/chimera?prepareThreshold=3'
+    chimera.db.user: 'chimera'
+
+  dcache:
+    dcache.broker.host: 'dcache.fz-juelich.de'
+    dcache.enable.space-reservation: 'false'
+    dcache.layout: '${host.name}'
+    dcache.log.dir: '/var/log/dCache'
+    dcache.namespace: 'chimera'
+    dcache.upload-directory: '/pnfs/fz-juelich.de/data/upload'
+    dcache.user: 'dcache'
+
+  ftp:
+    ftp.limits.streams-per-client: '20'
+    ftp.performance-marker-period: '30'
+
+  gplazma:
+    gplazma.authzdb.uid: 'uid,login,group,user'
+
+  httpd:
+    httpd.authz.admin-gid: '22010'
+    httpd.enable.authn: 'true'
+    httpd.enable.plots.billing: 'true'
+    httpd.enable.plots.pool-queue: 'true'
+
+  info-provider:
+    info-provider.dcache-architecture: 'tape'
+    info-provider.http.host: 'dcache.fz-juelich.de'
+    info-provider.paths.tape-info: '/var/opt/dcache/tape-info.xml'
+    info-provider.se-name: 'dcache'
+    info-provider.se-unique-id: 'dcache.fz-juelich.de'
+    info-provider.site-unique-id: 'FZJ'
+
+  pnfsmanager:
+    pnfsmanager.enable.full-path-permission-check: 'false'
+
+  srm:
+    srm.enable.pin-online-files: 'false'
+    srm.limits.db.queue: '2000'
+    srm.limits.jetty-connector.acceptors: '12'
+    srm.limits.jetty.threads.max: '5000'
+    srm.limits.jetty.threads.queued.max: '1000'
+    srm.persistence.enable.clean-pending-on-restart: 'true'
+    srm.persistence.enable.history: 'true'
+    srm.persistence.enable: 'false'
+    srm.request.bring-online.retries: '2'
+    srm.request.bring-online.threads: '100'
+    srm.request.copy.retries: '2'
+    srm.request.put.retries: '2'
+    srm.request.put.threads: '100'
+    srm.request.retries: '2'
+    srm.request.threads: '100'
+
+tsm_files:   
+    - 'Endit.pm'
+    - 'check_restore_processes.py'
+    - 'clean_old_files.py'
+    - 'endit.pl'
+    - 'tsmarchiver.pl'
+    - 'tsmcleaning.pl'
+    - 'tsmdeleter.pl'
+    - 'tsmretriever.pl'
+
+endit_conf_lofar:
+  dir: '/lofar'
+  dirread: '/pool01'
+  dirwrite: '/pool02'
+  linkdir: '/lofar/DEFAULT/'
+  logdir: '/var/log/dcache/'
+  dcuser: 'dcache'
+  maxusage: '4096'
+  maxusageread: '1024'
+  pollinginterval: '300'
+  hsminstance: 'osm'
+  minusage: '100'
+  timeout: '5400'
+  dsmcopts: '-server=dcache -fromnode=DCACHE-LOFAR -password==S0meT$MPas$word'
+  dsmcnode: 'DCACHE-LOFAR'
+  dsmcpass: '=S0meT$MPas$word'
+  verbose: '1'
+  
+endit_conf_ildg:
+  dir: '/ildggrid'
+  dirread: '/pool01'
+  dirwrite: '/pool02'
+  linkdir: '/ildggrid/ildg001/'
+  logdir: '/var/log/dcache/'
+  dcuser: 'dcache'
+  maxusage: '4096'
+  maxusageread: '1024'
+  pollinginterval: '300'
+  hsminstance: 'osm'
+  minusage: '100'
+  timeout: '5400'
+  dsmcopts: '-server=dcache -fromnode=DCACHE-POOL -password==S0meT$MPas$word'
+  dsmcnode: 'DCACHE-POOL'
+  dsmcpass: '=S0meT$MPas$word'
+  verbose: '1'
+
+poolmanager_cfg_hash:
+  cm:  
+    - 'set debug off'
+    - 'set update on'
+    - 'set magic on'
+  rc:
+    - 'set max threads 2147483647'
+    - 'onerror suspend'
+    - 'set max retries 3'
+    - 'set retry 900'
+    - 'set poolpingtimer 600'
+    - 'set max restore unlimited'
+  pm: 
+     default: 
+      type: 'wass'
+      options: 
+        sameHostRetry: 'notchecked'
+        p2p-oncost : 'yes'
+        stage-oncost : 'no'
+        alert : '0.0'
+        max-copies: '500' 
+        spacecostfactor: '1.0' 
+        sameHostCopy: 'besteffort'
+        p2p: '2.0'
+        idle: '0.0'
+        stage-allowed: 'yes'
+        fallback: '0.0'
+        p2p-allowed: 'yes'
+        slope: '0.0'
+        cpucostfactor: '1.0'
+        p2p-fortransfer: 'no'
+        halt: '0.0'
+  psu: 
+    set:
+    - 'regex off'
+    - 'allpoolsactive off'
+    unitgroups: 
+      net: 
+        world-net: [ '0.0.0.0/0.0.0.0' ]
+      store: 
+        any-store: [ '*@*' ]
+        ildg-ugroup: [ 'ildggrid:ildg001@osm' ]
+        ops-ugroup: [ 'ops:DEFAULT@osm' ] 
+      protocol:
+        any-protocol: [ '*/*' ]
+    poolgroups:
+      ildg-read-pools: ['dcachepool2_01', 'dcachepool1_01']
+      ildg: [ 'dcachepool1_02', 'dcachepool2_01', 'dcachepool2_02', 'dcachepool1_01' ]
+      ildg-write-pools: [ 'dcachepool1_02', 'dcachepool2_02' ]
+      dgtest: [ 'dcachepool1_00', 'dcachepool2_00' ]
+      dgops: [ 'dcachepool1_00', 'dcachepool2_00' ]
+      ops: [ 'dcachepool1_00', 'dcachepool2_00' ]
+    links:
+      ildg-read-link: 
+        ug: [ 'world-net', 'ildg-ugroup', 'any-protocol']
+        set: '-readpref=10 -writepref=0 -cachepref=10 -p2ppref=-1'
+        pg: ['ildg-read-pools']
+      ildg-write-link:  
+        ug: [ 'world-net', 'ildg-ugroup', 'any-protocol']
+        set: '-readpref=0 -writepref=10 -cachepref=0 -p2ppref=-1' 
+        pg: [' ildg-write-pools']
+      ops-link: 
+        ug: ['ops-ugroup', 'world-net', 'any-protocol']
+        pg: ['ops']
+      
+
+
+
+
+poolmanager_cfg_txt: |
+ cm set debug off
+ cm set update on
+ cm set magic on
+ rc set max threads 2147483647
+ pm set -sameHostRetry=notchecked -p2p-oncost=yes -stage-oncost=no -alert=0.0 -max-copies=500 -spacecostfactor=1.0 -sameHostCopy=besteffort -p2p=2.0 -idle=0.0 -stage-allowed=yes -fallback=0.0 -p2p-allowed=yes -slope=0.0 -cpucostfactor=1.0 -p2p-fortransfer=no -halt=0.0
+ pm create -type=wass default
+ #
+ # Setup of PoolManager (diskCacheV111.poolManager.PoolManagerV5) at Mon Jun 08 11:40:51 CEST 2015
+ #
+ #
+ # Printed by diskCacheV111.poolManager.PoolSelectionUnitV2 at Mon Jun 08 11:40:51 CEST 2015
+ #
+ #
+ psu set regex off
+ psu set allpoolsactive off
+ #
+ # The units ...
+ #
+ psu create unit -protocol */*
+ psu create unit -net    0.0.0.0/255.255.255.255
+ psu create unit -store  ildggrid:ildg001@osm
+ psu create unit -net    0.0.0.0/0.0.0.0
+ psu create unit -store  *@*
+ psu create unit -store  ops:DEFAULT@osm
+ #
+ # The unit Groups ...
+ #
+ psu create ugroup any-store
+ psu addto ugroup any-store *@*
+ psu create ugroup ildg-ugroup
+ psu addto ugroup ildg-ugroup ildggrid:ildg001@osm
+ psu create ugroup world-net
+ psu addto ugroup world-net 0.0.0.0/0.0.0.0
+ psu create ugroup any-protocol
+ psu addto ugroup any-protocol */*
+ psu create ugroup ops-ugroup
+ psu addto ugroup ops-ugroup ops:DEFAULT@osm
+ #
+ # The pools ...
+ #
+ psu create pool dcachepool2_01
+ psu create pool dcachepool2_02
+ psu create pool dcachepool2_00
+ psu create pool dcachepool1_00
+ psu create pool dcachepool1_01
+ psu create pool dcachepool1_02
+ #
+ # The pool groups ...
+ #
+ psu create pgroup ildg-read-pools
+ psu addto pgroup ildg-read-pools dcachepool2_01
+ psu addto pgroup ildg-read-pools dcachepool1_01
+ psu create pgroup ildg
+ psu addto pgroup ildg dcachepool1_02
+ psu addto pgroup ildg dcachepool2_01
+ psu addto pgroup ildg dcachepool2_02
+ psu addto pgroup ildg dcachepool1_01
+ psu create pgroup default
+ psu create pgroup ResilientPools
+ psu create pgroup dgops
+ psu addto pgroup dgops dcachepool1_00
+ psu addto pgroup dgops dcachepool2_00
+ psu create pgroup ildg-write-pools
+ psu addto pgroup ildg-write-pools dcachepool1_02
+ psu addto pgroup ildg-write-pools dcachepool2_02
+ psu create pgroup dgtest
+ psu addto pgroup dgtest dcachepool1_00
+ psu addto pgroup dgtest dcachepool2_00
+ psu create pgroup ops
+ psu addto pgroup ops dcachepool1_00
+ psu addto pgroup ops dcachepool2_00
+ #
+ # The links ...
+ #
+ psu create link ildg-read-link world-net ildg-ugroup any-protocol
+ psu set link ildg-read-link -readpref=10 -writepref=0 -cachepref=10 -p2ppref=-1
+ psu add link ildg-read-link ildg-read-pools
+ psu create link ildg-write-link world-net ildg-ugroup any-protocol
+ psu set link ildg-write-link -readpref=0 -writepref=10 -cachepref=0 -p2ppref=-1
+ psu add link ildg-write-link ildg-write-pools
+ psu create link ops-link ops-ugroup world-net any-protocol
+ psu set link ops-link -readpref=10 -writepref=10 -cachepref=10 -p2ppref=-1
+ psu add link ops-link ops
+ #
+ # The link Groups ...
+ #
+ rc onerror suspend
+ rc set max retries 3
+ rc set retry 900
+ rc set poolpingtimer 600
+ rc set max restore unlimited
