@@ -1,9 +1,5 @@
 # Private class
-class dcache::poolmanager (
-  $poolmanagerconf_file = '/var/lib/dcache/config/poolmanager.conf',
-  $poolmanager_conf     = 'nodeff',
-  # $poolmanager_conf=hiera('poolmanager_cfg','nodeff'),
-  ) {
+class dcache::poolmanager ($poolmanagerconf_file = $dcache::dcache_poolmanagerconf, $poolmanager_conf = 'nodeff',) {
   if ($poolmanager_conf != 'nodeff') {
     #  dump poolmamager as multiline string : e.g.
     #  poolmanager_cfg: |

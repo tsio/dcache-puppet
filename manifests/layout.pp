@@ -29,12 +29,12 @@ class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodeff',
       group   => $dcache::dcachegroup,
       mode    => '0644',
       content => template('dcache/layout.conf.erb'),
-      notify  => Exec['dcache-refresh_lauot'],
+      notify  => Exec['dcache-refresh_layuot'],
     }
   }
 
   # Ugly method but it prevents java orphaned processes.
-  exec { 'dcache-refresh_lauot':
+  exec { 'dcache-refresh_layuot':
     command     => "cp -p  ${l_file}.puppet ${l_file}; touch ${l_file} ",
     refreshonly => true,
     path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin/'],
