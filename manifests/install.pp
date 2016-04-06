@@ -31,11 +31,4 @@ class dcache::install ($lock_version = $dcache::lock_version) {
     notify => Exec['dcache-update_db'],
   }
 
-  exec { 'dcache-update_db':
-    command     => "dcache database update",
-    refreshonly => true,
-    path        => $::path,
-    logoutput   => false,
-  }
-
 }

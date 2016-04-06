@@ -6,6 +6,7 @@ class dcache (
   $package_name          = 'dcache',
   $conf                  = 'undef',
   $dcahe_poolmanagerconf = '/var/lib/dcache/config/poolmanager.conf',
+  $dcache_layout         = "${dcache_etc_dir}/layouts/${hostname}.conf",
   $admin_ssh_keys        = 'nodeff',
   $lock_version          = false,) {
   anchor { 'dcache::start': }
@@ -15,7 +16,10 @@ class dcache (
   class { 'dcache::config':
     conf    => $conf,
     require => Class['dcache::install'],
-    notify  => Anchor['dcache::end'],
+  }
+
+  class { 'dcache::service':
+    require => Class['dcache::config'],
   }
 
   anchor { 'dcache::end': }
