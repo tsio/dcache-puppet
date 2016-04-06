@@ -17,10 +17,10 @@ class dcache::service {
   }
 
   exec { 'dcache-start':
-    command     => "dcache start",
+    command     => "echo dcache start",
     refreshonly => true,
     path        => $::path,
-    onlyif      => "dcache check-config ",
+    unless      => "dcache check-config | grep -q ERROR ",
   }
 }
 

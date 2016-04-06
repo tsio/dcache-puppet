@@ -15,15 +15,9 @@ class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodeff',
     }
   }
 
-  if ($p_setup != 'nodeff') {
-    $pools = deep_merge($p_setup, collect_pools_paths($layout_hash['domains']))
-  } else {
-    $pools = collect_pools_paths($layout_hash['domains'])
-  }
-
-  create_resources(dcache::layout::pool, $pools)
-
   if ($layout_hash != 'nodeff') {
+    notice($layout_hash)
+
     file { "${l_file}.puppet":
       owner   => $dcache::dcacheuser,
       group   => $dcache::dcachegroup,
@@ -31,6 +25,14 @@ class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodeff',
       content => template('dcache/layout.conf.erb'),
       notify  => Exec['dcache-refresh_layuot'],
     }
+
+    if ($p_setup != 'nodeff') {
+      $pools = deep_merge($p_setup, collect_pools_paths($layout_hash['domains']))
+    } else {
+      $pools = collect_pools_paths($layout_hash['domains'])
+    }
+    create_resources(dcache::layout::pool, $pools)
+
   }
 
   # Ugly method but it prevents java orphaned processes.

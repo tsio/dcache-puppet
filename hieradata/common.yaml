@@ -125,7 +125,7 @@ dcache_layout:
       poolmanager: 
       broadcast:  
       loginbroker: 
-      topo: 
+      tropo: 
     dirDomain:
       dir:
     adminDoorDomain:
@@ -151,12 +151,6 @@ dcache_layout:
         dcache.java.memory.heap: '256m'
       nfs:
         nfs.version: '4.1'
-
-    srm-dcache-lofarDomain:
-      srm:
-      transfermanagers:
-    infoDomain:
-      info:
 
     gridftpDomain:
       domainsettings:
