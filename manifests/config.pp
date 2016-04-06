@@ -10,6 +10,11 @@ class dcache::config ($conf = 'nodeff',) {
     }
 
     if deep_has_key($dcache_conf, 'dcache.log.dir') {
+      exec { "Create ${dcache_conf['dcache']['dcache.log.dir']}":
+        creates => "${dcache_conf['dcache']['dcache.log.dir']}",
+        command => "mkdir -p ${dcache_conf['dcache']['dcache.paths.billing']}",
+        path    => $::path
+      } ->
       file { $dcache_conf['dcache']['dcache.log.dir']:
         owner  => $dcache::dcacheuser,
         group  => $dcache::dcachegroup,
@@ -18,6 +23,11 @@ class dcache::config ($conf = 'nodeff',) {
     }
 
     if deep_has_key($dcache_conf, 'dcache.paths.billing') {
+      exec { "Create ${dcache_conf['dcache']['dcache.paths.billing']}":
+        creates => "${dcache_conf['dcache']['dcache.paths.billing']}",
+        command => "mkdir -p ${dcache_conf['dcache']['dcache.paths.billing']}",
+        path    => $::path
+      } ->
       file { $dcache_conf['dcache']['dcache.paths.billing']:
         owner  => $dcache::dcacheuser,
         group  => $dcache::dcachegroup,

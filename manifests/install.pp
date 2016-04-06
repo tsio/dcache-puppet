@@ -34,7 +34,7 @@ class dcache::install ($lock_version = $dcache::lock_version) {
   exec { 'dcache-update_db':
     command     => "dcache database update",
     refreshonly => true,
-    path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin/'],
+    path        => $::path,
     logoutput   => false,
   }
 
