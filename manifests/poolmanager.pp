@@ -36,7 +36,7 @@ class dcache::poolmanager (
       mode    => '0644',
       content => $content,
       require => Exec["save_custom_pm"],
-      notify  => Exec[reload_pm],
+      notify  => Exec['reload_pm'],
     }
 
     exec { "save_custom_pm":
@@ -51,7 +51,5 @@ class dcache::poolmanager (
       path        => $::path,
       logoutput   => false,
     }
-
-  }
 
 }
