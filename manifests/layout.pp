@@ -4,6 +4,10 @@ class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodef', 
       class { 'dcache::poolmanager': }
     }
 
+    if deep_has_key($layout_hash, 'gplazma') {
+      class { 'dcache::gplazma': }
+    }
+
     if deep_has_key($layout_hash, 'admin') and $dcache::admin_ssh_keys != 'nodef' {
       file { '/etc/dcache/admin/authorized_keys2':
         owner   => $dcache::dcacheuser,
