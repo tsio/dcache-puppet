@@ -1,8 +1,6 @@
 class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodef', $p_setup = 'nodef',) {
   if is_hash($layout_hash) {
     if deep_has_key($layout_hash, 'dCacheDomain') {
-      notice('$layout_hash')
-
       class { 'dcache::poolmanager': }
     }
 
@@ -11,7 +9,7 @@ class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodef', 
         owner   => $dcache::dcacheuser,
         group   => $dcache::dcachegroup,
         mode    => '0644',
-        content => join([inline_template('<%= scope["dcache::admin_ssh_keys"].join("\n") %>'), "\n"], ''),
+        content => join([inline_template('<%= scope["::dcache::admin_ssh_keys"].join("\n") %>'), "\n"], ''),
         before  => Class['dcache::poolmanager']
       }
     }

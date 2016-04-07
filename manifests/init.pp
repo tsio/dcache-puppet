@@ -1,3 +1,5 @@
+# see README.markdown , ( but it will not help so much)
+
 class dcache (
   $dcacheuser            = 'dcache',
   $dcachegroup           = 'dcache',
@@ -9,8 +11,10 @@ class dcache (
   $layout                = 'nodef',
   $pools_setup           = 'nodef',
   $poolmanager_conf      = 'nodef',
+  $gplazma_conf          = 'nodef',
   $poolmanager_conf_path = '/var/lib/dcache/config/poolmanager.conf',
   $dcache_layout         = "${dcache_etc_dir}/layouts/${hostname}.conf",
+  $gplazma_conf_path     = "${dcache_etc_dir}/gplazma.conf",
   $lock_version          = false,) {
   anchor { 'dcache::start': }
 

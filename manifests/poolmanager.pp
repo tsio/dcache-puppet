@@ -1,4 +1,4 @@
-# Private class creates poolmanafe
+# Private class generates poolmanager.conf
 class dcache::poolmanager (
   $poolmanager_conf_path = $::dcache::poolmanager_conf_path,
   $poolmanager_conf      = $::dcache::poolmanager_conf,) {
