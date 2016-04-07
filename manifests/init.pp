@@ -16,6 +16,10 @@ class dcache (
   $dcache_layout         = "${dcache_etc_dir}/layouts/${hostname}.conf",
   $gplazma_conf_path     = "${dcache_etc_dir}/gplazma.conf",
   $lock_version          = false,) {
+  if $::os[family] != 'RedHat' {
+    fail("This module does NOT TESTED on ${::os[family]} ")
+  }
+
   anchor { 'dcache::start': }
 
   class { 'dcache::install': require => Anchor['dcache::start'], }
