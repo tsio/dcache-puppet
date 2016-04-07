@@ -2,11 +2,6 @@ class dcache::install ($lock_version = $dcache::lock_version) {
   $package_ensure = $dcache::package_ensure
   $package_name = $dcache::package_name
 
-  #  notice ("!!!!!!!!!!!!! ${package_ensure} TEST  !!!!!!!!!!!!!!!")
-  #        notify { "test":
-  #           message => $dcache_version }
-
-
   if $lock_version {
     file_line { 'dcache_versionlock':
       ensure => present,

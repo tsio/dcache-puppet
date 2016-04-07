@@ -1,38 +1,3 @@
-pg_hba_rules:
-    'local all is for Unix domain socket connections only:':
-        type: local
-        database: all
-        user: all
-        auth_method: 'trust'
-        order: '001'
-    'IPv4 local connections:':
-        type: host
-        database: all
-        user: all
-        auth_method: 'trust'
-        address: '127.0.0.1/32'
-        order: '002'
-    'IPv6 local connections:':
-        type: host
-        database: all
-        user: all
-        auth_method: 'trust'
-        address: '::1/128'
-        order: '003'
- 
- 
-ssh_pub_keys:
-  - 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAn98FaP3Gf11bLsghwdRhI8zoD2xRutZnIx09r9lvVN8Pw6t/LRGgCdDx4fo5UsGZyj2pSz8+xkUcWXvO2KIOuid2VaVpvzk7AECqwfVKsf4HWWxZZwH3v0T2NyOHaZtvRj8DRmMrjxiX2qMbC0QeIWE4Kk6QMQrBlUXkJhLHwcpfB77/BbsnbLymUlFe+Y9mSo9aRbhLdUlf0MTMRfCkfK3GtaRFic5xbvO7MJ3Ow2XSOFjYyqV5sIF+8gJVXNebjnC6ETgki0spD+xYmkX5gqhf1oBnI8lpp3q5Lv4H6+mBp0J4d5eCQGzS8YcgIHPNzZfDQ6OYms8SXRL0w8qywQ== manzano@zam360'
-  
-common_pkgs:
-  - 'java-1.8.0-openjdk'
-
-common_pkgs_5:
-  - 'jre1.8.0_73.x86_64'  
-
-       
-dcache_version: '2.10.58-1'
-
 dcache_conf:
   dcache: 
     dcache.log.dir: '/var/log/dcache'
@@ -125,14 +90,14 @@ dcache_layout:
       poolmanager: 
       broadcast:  
       loginbroker: 
-      tropo: 
+      topo: 
+
     dirDomain:
       dir:
+
     adminDoorDomain:
       admin:
-    httpdDomain:
-      httpd:
-      billing:
+
     utilityDomain:
       pinmanager:
     gPlazma-dcache-lofarDomain:
@@ -282,11 +247,11 @@ tsm_files:
     - 'tsmdeleter.pl'
     - 'tsmretriever.pl'
 
-endit_conf:
-  dir: '/tape'
+endit_conf_lofar:
+  dir: '/lofar'
   dirread: '/pool01'
   dirwrite: '/pool02'
-  linkdir: '/tape/DEFAULT/'
+  linkdir: '/lofar/DEFAULT/'
   logdir: '/var/log/dcache/'
   dcuser: 'dcache'
   maxusage: '4096'
@@ -295,9 +260,27 @@ endit_conf:
   hsminstance: 'osm'
   minusage: '100'
   timeout: '5400'
-  dsmcopts: '-server=tape -fromnode=DCACHE -password=tapepw'
-  dsmcnode: 'DCACHE'
-  dsmcpass: 'tapepw'
+  dsmcopts: '-server=dcache -fromnode=DCACHE-LOFAR -password=****pw****'
+  dsmcnode: 'DCACHE-LOFAR'
+  dsmcpass: '****pw****'
+  verbose: '1'
+  
+endit_conf_ildg:
+  dir: '/ildggrid'
+  dirread: '/pool01'
+  dirwrite: '/pool02'
+  linkdir: '/ildggrid/ildg001/'
+  logdir: '/var/log/dcache/'
+  dcuser: 'dcache'
+  maxusage: '4096'
+  maxusageread: '1024'
+  pollinginterval: '300'
+  hsminstance: 'osm'
+  minusage: '100'
+  timeout: '5400'
+  dsmcopts: '-server=dcache -fromnode=DCACHE-POOL -password=****pw****'
+  dsmcnode: 'DCACHE-POOL'
+  dsmcpass: '****pw****'
   verbose: '1'
 
 poolmanager_cfg_hash:
@@ -461,3 +444,5 @@ poolmanager_cfg_txt: |
  rc set retry 900
  rc set poolpingtimer 600
  rc set max restore unlimited
+
+  

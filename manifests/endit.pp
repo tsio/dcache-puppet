@@ -32,7 +32,7 @@ class dcache::endit (
     group  => $group,
   }
 
-  $tsm_files = hiera('tsm_files', 'nodeff')
+  $tsm_files = hiera('tsm_files', 'nodef')
 
   endit_file { $tsm_files: }
 
@@ -44,7 +44,7 @@ class dcache::endit (
     mode   => '0755',
   }
 
-  $endit_conf = hiera($tsm_conf, 'nodeff')
+  $endit_conf = hiera($tsm_conf, 'nodef')
 
   file { "${dcache::endit::endit_dir}/endit.conf":
     ensure  => 'present',

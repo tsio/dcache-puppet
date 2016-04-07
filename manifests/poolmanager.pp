@@ -1,6 +1,8 @@
-# Private class
-class dcache::poolmanager ($poolmanagerconf_file = $dcache::dcache_poolmanagerconf, $poolmanager_conf = 'nodeff',) {
-  if ($poolmanager_conf != 'nodeff') {
+# Private class creates poolmanafe
+class dcache::poolmanager (
+  $poolmanager_conf_path = $::dcache::poolmanager_conf_path,
+  $poolmanager_conf      = $::dcache::poolmanager_conf,) {
+  if ($poolmanager_conf != 'nodef') {
     #  dump poolmamager as multiline string : e.g.
     #  poolmanager_cfg: |
     #    cm set debug off
@@ -28,28 +30,25 @@ class dcache::poolmanager ($poolmanagerconf_file = $dcache::dcache_poolmanagerco
       $content = template('dcache/poolmanager.conf.erb')
     }
 
-    filebucket { 'poolmanager.conf': path => "/tmp/", }
-    $timestamp = generate('/bin/date', '+%Y%d%m%H%M%S')
-
-    file { "${poolmanagerconf_file}.puppet":
-      owner   => $dcache::dcacheuser,
-      group   => $dcache::dcachegroup,
+    file { "${poolmanager_conf_path}.puppet":
+      owner   => $::dcache::dcacheuser,
+      group   => $::dcache::dcachegroup,
       mode    => '0644',
       content => $content,
-      require => Exec["backup_pm"],
-      backup  => 'poolmanager.conf',
+      require => Exec["save_custom_pm"],
       notify  => Exec[reload_pm],
     }
 
-    exec { "backup_pm":
-      command => "/bin/cp -f ${poolmanagerconf_file} ${poolmanagerconf_file}.puppet",
-      onlyif  => "/usr/bin/test ${poolmanagerconf_file} -nt ${poolmanagerconf_file}.puppet",
+    exec { "save_custom_pm":
+      command => "/bin/cp -f ${poolmanager_conf_path} ${poolmanager_conf_path}.puppet;/bin/cp -f ${poolmanager_conf_path} ${poolmanager_conf_path}.puppet.save  ",
+      onlyif  => "/usr/bin/test ${poolmanager_conf_path} -nt ${poolmanager_conf_path}.puppet",
+      path    => $::path
     }
 
     exec { 'reload_pm':
-      command     => "/etc/init.d/dcache-server stop; cp -p  ${poolmanagerconf_file}.puppet ${poolmanagerconf_file}; echo /etc/init.d/dcache-server start",
+      command     => "cp -p  ${poolmanager_conf_path}.puppet ${poolmanager_conf_path}",
       refreshonly => true,
-      path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin/'],
+      path        => $::path,
       logoutput   => false,
     }
 

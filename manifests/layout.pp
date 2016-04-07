@@ -1,10 +1,12 @@
-class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodeff', $p_setup = 'nodef',) {
+class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodef', $p_setup = 'nodef',) {
   if is_hash($layout_hash) {
     if deep_has_key($layout_hash, 'dCacheDomain') {
+      notice('$layout_hash')
+
       class { 'dcache::poolmanager': }
     }
 
-    if deep_has_key($layout_hash, 'admin') and $dcache::admin_ssh_keys != 'nodeff' {
+    if deep_has_key($layout_hash, 'admin') and $dcache::admin_ssh_keys != 'nodef' {
       file { '/etc/dcache/admin/authorized_keys2':
         owner   => $dcache::dcacheuser,
         group   => $dcache::dcachegroup,
@@ -15,7 +17,7 @@ class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodeff',
     }
   }
 
-  if ($layout_hash != 'nodeff') {
+  if ($layout_hash != 'nodef') {
     file { "${l_file}.puppet":
       owner   => $dcache::dcacheuser,
       group   => $dcache::dcachegroup,
@@ -24,7 +26,7 @@ class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodeff',
       notify  => Exec['dcache-refresh_layuot'],
     }
 
-    if ($p_setup != 'nodeff') {
+    if ($p_setup != 'nodef') {
       $pools = deep_merge($p_setup, collect_pools_paths($layout_hash['domains']))
     } else {
       $pools = collect_pools_paths($layout_hash['domains'])
