@@ -48,7 +48,7 @@ class dcache::poolmanager (
     exec { 'reload_pm':
       command     => "cp -p  ${poolmanager_conf_path}.puppet ${poolmanager_conf_path}",
       refreshonly => true,
-      onlyif      => "dcache status",
+      #      onlyif      => "dcache status",
       path        => $::path,
       logoutput   => false,
     }
