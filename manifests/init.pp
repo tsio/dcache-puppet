@@ -5,6 +5,7 @@ class dcache (
   $dcachegroup           = 'dcache',
   $package_ensure        = 'lastest',
   $dcache_etc_dir        = '/etc/dcache',
+  $bin_path              = '/bin',
   $package_name          = 'dcache',
   $conf                  = 'nodef',
   $admin_ssh_keys        = 'nodef',

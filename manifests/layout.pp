@@ -1,14 +1,14 @@
-class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodef', $p_setup = 'nodef',) {
+class dcache::layout ($l_file = $::dcache::dcache_layout, $layout_hash = 'nodef', $p_setup = 'nodef',) {
   if is_hash($layout_hash) {
     if deep_has_key($layout_hash, 'dCacheDomain') {
       class { 'dcache::poolmanager': }
     }
 
     if deep_has_key($layout_hash, 'gplazma') {
-      class { 'dcache::gplazma': }
+      class { 'dcache::gplazma': require => Class['dcache::install'], }
     }
 
-    if deep_has_key($layout_hash, 'admin') and $dcache::admin_ssh_keys != 'nodef' {
+    if deep_has_key($layout_hash, 'admin') and $::dcache::admin_ssh_keys != 'nodef' {
       file { '/etc/dcache/admin/authorized_keys2':
         owner   => $dcache::dcacheuser,
         group   => $dcache::dcachegroup,
@@ -35,15 +35,6 @@ class dcache::layout ($l_file = $dcache::dcache_layout, $layout_hash = 'nodef', 
     }
     create_resources(dcache::layout::pool, $pools)
 
-  }
-
-  # Ugly method but it prevents java orphaned processes.
-  exec { 'dcache-refresh_layuot':
-    command     => "cp -p  ${l_file}.puppet ${l_file}; touch ${l_file} ",
-    refreshonly => true,
-    path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin/'],
-    logoutput   => false,
-    notify      => Exec['dcache-update_db'],
   }
 
 }

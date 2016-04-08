@@ -22,5 +22,14 @@ class dcache::service {
     path        => $::path,
     onlyif      => "test ; if dcache check-config | grep -q ERROR ; then false; else true ; fi",
   }
+
+  exec { 'dcache-refresh_layuot':
+    command     => "cp -p  ${::dcache::dcache_layout}.puppet ${::dcache::dcache_layout}; touch ${::dcache::dcache_layout}",
+    refreshonly => true,
+    path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin/'],
+    logoutput   => false,
+    notify      => Exec['dcache-update_db'],
+  }
+
 }
 
