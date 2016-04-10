@@ -38,8 +38,7 @@ class dcache (
 
   class { 'dcache::service':
     require => Class['dcache::layout'],
-  }
-
+  } ->
   anchor { 'dcache::end': }
 
 }
