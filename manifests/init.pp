@@ -3,7 +3,7 @@
 class dcache (
   $dcacheuser            = 'dcache',
   $dcachegroup           = 'dcache',
-  $package_ensure        = 'lastest',
+  $package_ensure        = 'present',
   $dcache_etc_dir        = '/etc/dcache',
   $bin_path              = '/bin',
   $package_name          = 'dcache',
