@@ -19,11 +19,17 @@ class dcache::install ($lock_version = $dcache::lock_version) {
     default  => $package_ensure,
   }
 
+  if $_package_ensure != 'purged' {
+    $_notify = Exec['dcache-update_db']
+  } else {
+    $_notify = undef
+  }
+
   package { 'dcache':
     ensure => $_package_ensure,
     name   => $package_name,
     tag    => 'dcache',
-    notify => Exec['dcache-update_db'],
+    notify => $_notify,
   }
 
 }
