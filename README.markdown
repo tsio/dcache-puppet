@@ -31,19 +31,16 @@ Simple usage:
 
 customized usage  :
    
-    class { 'dcache':
-    dcacheuser  => 'dcache',
-    dcachegroup => 'dcache',
-    package_ensure => '2.13.27-1',
-    dcache_etc_dir => '/etc/dcache',
-    package_name => 'dcache',
-    conf  => hiera('dcache_conf_lofar', 'nodeff'),
-    dcahe_poolmanagerconf = '/var/lib/dcache/config/poolmanager.conf',
-    admin_ssh_keys = ["ssh-rsa AAAAB3N...","ssh-dss AAA..."] 
-    } ->
-    class { 'dcache::layout':
-      layout_hash => hiera('dcache_layout', 'nodeff'),
-      p_setup => hiera ( 'pools_setup', 'nodeff') ,
+
+
+  class { 'dcache':
+    package_ensure   => hiera('dcache_version'),
+    conf             => hiera('dcache_conf', 'nodef'),
+    admin_ssh_keys   => hiera('ssh_pub_keys', 'nodef'),
+    layout           => hiera('dcache_layout', 'nodef'),
+    pools_setup      => hiera('pools_setup', 'nodef'),
+    poolmanager_conf => hiera('poolmanager_cfg_txt', 'nodef'),
+    gplazma_conf     => hiera('gplazma_conf', 'nodef'),
     }
  
  
