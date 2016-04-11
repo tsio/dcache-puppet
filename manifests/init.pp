@@ -18,7 +18,8 @@ class dcache (
   $gplazma_conf_path     = "${dcache_etc_dir}/gplazma.conf",
   $authorized_keys2      = "${dcache_etc_dir}/admin/authorized_keys2",
   $lock_version          = false,
-  $service_ensure        = 'running') {
+  #  $service_ensure        = 'stopped',
+  $service_ensure        = 'running',) {
   if $::os[family] != 'RedHat' {
     fail("This module does NOT TESTED on ${::os[family]} ")
   }

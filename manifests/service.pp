@@ -2,9 +2,19 @@
 
 class dcache::service {
   case $::dcache::service_ensure {
-    'running' : { $_notify = Exec['dcache-start'] }
-    'stopped' : { $_notify = Exec['dcache-stop'] }
-    default   : { fail("dCache service status must be running stopped ") }
+    'running' : {
+      $_notify = Exec['dcache-start']
+      $_before = [Exec["dcache-start"], Exec['Validate dcache config']]
+
+    }
+    'stopped' : {
+      $_notify = Exec['dcache-stop']
+      $_before = undef
+
+    }
+    default   : {
+      fail("dCache service status must be running stopped ")
+    }
   }
 
   Exec { 'Validate dcache config':
@@ -52,7 +62,9 @@ class dcache::service {
     logoutput   => false,
     require     => Exec["dcache-stop"],
     notify      => Exec['dcache-update_db'],
-    before      => [Exec["dcache-start"], Exec['Validate dcache config']],
+    before      => $_before,
+
+  #    before      => [Exec["dcache-start"], Exec['Validate dcache config']],
   }
 
 }
