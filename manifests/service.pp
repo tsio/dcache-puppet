@@ -18,7 +18,7 @@ class dcache::service {
   }
 
   Exec { 'Validate dcache config':
-    command   => "echo 'dcache ckeck-config has found errors' && false",
+    command   => "echo 'dcache configuration contains errors' && false",
     onlyif    => "test ; dcache check-config | grep -q ERROR ",
     cwd       => '/tmp',
     logoutput => 'on_failure',
