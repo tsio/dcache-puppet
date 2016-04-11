@@ -9,7 +9,7 @@ class dcache::layout ($l_file = $::dcache::dcache_layout, $layout_hash = 'nodef'
     }
 
     if deep_has_key($layout_hash, 'admin') and $::dcache::admin_ssh_keys != 'nodef' {
-      file { '/etc/dcache/admin/authorized_keys2':
+      file { "${::dcache::authorized_keys2}":
         owner   => $dcache::dcacheuser,
         group   => $dcache::dcachegroup,
         mode    => '0644',

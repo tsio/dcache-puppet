@@ -1,6 +1,28 @@
 #  modules/dcache/manifests/service.pp
 
 class dcache::service {
+  case $::dcache::service_ensure {
+    'running' : { $_notify = Exec['dcache-start'] }
+    'stopped' : { $_notify = Exec['dcache-stop'] }
+    default   : { fail("dCache service status must be running stopped ") }
+  }
+
+  Exec { 'Validate dcache config':
+    command   => "echo 'dcache ckeck-config has found errors' && false",
+    onlyif    => "test ; dcache check-config | grep -q ERROR ",
+    cwd       => '/tmp',
+    logoutput => 'on_failure',
+    path      => $::path,
+    before    => Exec['half_final'],
+  }
+
+  Exec { 'half_final':
+    command => "true",
+    path    => $::path,
+    #    refreshonly => true,
+    notify  => $_notify,
+  }
+
   exec { 'dcache-stop':
     command     => "dcache stop",
     refreshonly => true,
@@ -12,8 +34,8 @@ class dcache::service {
     command     => "dcache database update",
     refreshonly => true,
     path        => $::path,
-    #    onlyif      => "dcache status ; if [ $? -eq 1 ] ; then echo true; else echo false; fi",
-    notify      => Exec['dcache-start'],
+  #    onlyif      => "dcache status ; if [ $? -eq 1 ] ; then echo true; else echo false; fi",
+  #    before      => Exec['dcache-start'],
   }
 
   exec { 'dcache-start':
@@ -28,7 +50,9 @@ class dcache::service {
     refreshonly => true,
     path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin/'],
     logoutput   => false,
+    require     => Exec["dcache-stop"],
     notify      => Exec['dcache-update_db'],
+    before      => [Exec["dcache-start"], Exec['Validate dcache config']],
   }
 
 }

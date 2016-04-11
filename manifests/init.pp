@@ -16,7 +16,9 @@ class dcache (
   $poolmanager_conf_path = '/var/lib/dcache/config/poolmanager.conf',
   $dcache_layout         = "${dcache_etc_dir}/layouts/${hostname}.conf",
   $gplazma_conf_path     = "${dcache_etc_dir}/gplazma.conf",
-  $lock_version          = false,) {
+  $authorized_keys2      = "${dcache_etc_dir}/admin/authorized_keys2",
+  $lock_version          = false,
+  $service_ensure        = 'running') {
   if $::os[family] != 'RedHat' {
     fail("This module does NOT TESTED on ${::os[family]} ")
   }
