@@ -19,7 +19,7 @@ class dcache::config ($conf = 'nodef',) {
     if deep_has_key($dcache_conf, 'dcache.log.dir') {
       exec { "Create ${dcache_conf['dcache']['dcache.log.dir']}":
         creates => "${dcache_conf['dcache']['dcache.log.dir']}",
-        command => "mkdir -p ${dcache_conf['dcache']['dcache.paths.billing']}",
+        command => "mkdir -p ${dcache_conf['dcache']['dcache.dcache.log.dir']}",
         path    => $::path,
         notify  => File[$dcache_conf['dcache']['dcache.log.dir']],
       }

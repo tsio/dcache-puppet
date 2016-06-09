@@ -27,20 +27,18 @@ Simple usage:
 
     class { 'dcache': }
   
- *install dcache package only*
+*install dcache package only*
 
-customized usage  :
-   
+customized usage:
 
-
-  class { 'dcache':
-    package_ensure   => hiera('dcache_version'),
-    conf             => hiera('dcache_conf', 'nodef'),
-    admin_ssh_keys   => hiera('ssh_pub_keys', 'nodef'),
-    layout           => hiera('dcache_layout', 'nodef'),
-    pools_setup      => hiera('pools_setup', 'nodef'),
-    poolmanager_conf => hiera('poolmanager_cfg_txt', 'nodef'),
-    gplazma_conf     => hiera('gplazma_conf', 'nodef'),
+    class { 'dcache':
+     package_ensure   => hiera('dcache_version'),
+     conf             => hiera('dcache_conf', 'nodef'),
+     admin_ssh_keys   => hiera('ssh_pub_keys', 'nodef'),
+     layout           => hiera('dcache_layout', 'nodef'),
+     pools_setup      => hiera('pools_setup', 'nodef'),
+     poolmanager_conf => hiera('poolmanager_cfg_txt', 'nodef'),
+     gplazma_conf     => hiera('gplazma_conf', 'nodef'),
     }
  
  
