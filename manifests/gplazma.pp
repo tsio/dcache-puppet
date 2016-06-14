@@ -11,7 +11,7 @@ class dcache::gplazma ($gplazma_conf_path = $::dcache::gplazma_conf_path, $gplaz
     exec { "save_custom_gplazma":
       command => "/bin/cp -f ${gplazma_conf_path} ${gplazma_conf_path}.puppet;/bin/cp -f ${gplazma_conf_path} ${gplazma_conf_path}.puppet.save",
       onlyif  => "/usr/bin/test ${gplazma_conf_path} -nt ${gplazma_conf_path}.puppet",
-      path    => $::path
+      path    => $::path,
     }
 
   }
